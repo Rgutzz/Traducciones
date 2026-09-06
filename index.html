@@ -3,100 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#0b1120">
   <title>Seguimiento de Traducciones</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="brand">
-        <div class="brand-mark">T</div>
-        <div>
-          <h1>Seguimiento de Traducciones</h1>
-          <p>Pagos y documentos pendientes</p>
-        </div>
-      </div>
-      <button id="refreshBtn" class="refresh-btn" type="button">↻ Actualizar</button>
-    </header>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">T</div>
+      <div><h1>Seguimiento de Traducciones</h1><p>Pagos y documentos</p></div>
+    </div>
+    <button id="themeBtn" class="icon-btn" title="Cambiar modo">☀️</button>
+  </header>
 
-    <main class="container">
-      <section class="hero">
-        <div>
-          <span class="eyebrow">PANEL DE PAGOS</span>
-          <h2>Hola, Mariella 👋</h2>
-          <p>Aquí puedes consultar tus proyectos y documentos pendientes de pago.</p>
-        </div>
+  <main class="container">
+    <nav class="nav">
+      <button class="nav-btn active" data-page="pendientes">💰 Pendientes</button>
+      <button class="nav-btn" data-page="documentos">📄 Documentos</button>
+      <button class="nav-btn" data-page="historial">🗂️ Historial</button>
+      <button id="refreshBtn" class="refresh-btn">↻ Actualizar</button>
+    </nav>
+
+    <section id="page-pendientes" class="page active">
+      <div class="hero">
+        <div><span class="eyebrow">PANEL DE PAGOS</span><h2>Pendientes de pago</h2><p>Consulta lo que está pendiente de cobrar.</p></div>
         <div id="lastUpdated" class="updated">Cargando...</div>
-      </section>
-
+      </div>
       <section class="stats-grid">
-        <article class="stat-card stat-primary">
-          <div class="stat-icon">S/</div>
-          <div>
-            <span>Total pendiente</span>
-            <strong id="totalPendiente">S/ 0.00</strong>
-          </div>
-        </article>
-        <article class="stat-card">
-          <div class="stat-icon">📁</div>
-          <div>
-            <span>Proyectos pendientes</span>
-            <strong id="totalProyectos">0</strong>
-          </div>
-        </article>
-        <article class="stat-card">
-          <div class="stat-icon">📄</div>
-          <div>
-            <span>Documentos pendientes</span>
-            <strong id="totalDocumentos">0</strong>
-          </div>
-        </article>
+        <article class="stat-card stat-primary"><div class="stat-icon">S/</div><div><span>Total pendiente</span><strong id="totalPendiente">S/ 0.00</strong></div></article>
+        <article class="stat-card"><div class="stat-icon">📁</div><div><span>Proyectos pendientes</span><strong id="totalProyectos">0</strong></div></article>
+        <article class="stat-card"><div class="stat-icon">📄</div><div><span>Documentos pendientes</span><strong id="totalDocumentos">0</strong></div></article>
       </section>
-
       <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h3>Pagos pendientes</h3>
-            <p>Montos pendientes de cobro, sin IGV.</p>
-          </div>
-          <input id="searchPayments" class="search" type="search" placeholder="Buscar código o proyecto...">
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Mes</th>
-                <th>Traducción</th>
-                <th>Adelantos</th>
-                <th>Por cobrar</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody id="paymentsBody">
-              <tr><td colspan="6" class="empty">Cargando información...</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="panel-head"><div><h3>Pagos pendientes</h3><p>Solo registros sin estado de pago.</p></div><input id="searchPayments" class="search" type="search" placeholder="Buscar código o proyecto..."></div>
+        <div class="table-wrap"><table><thead><tr><th>Código</th><th>Mes</th><th>Traducción</th><th>Adelantos</th><th>Por cobrar</th><th>Estado</th></tr></thead><tbody id="paymentsBody"></tbody></table></div>
       </section>
+    </section>
 
+    <section id="page-documentos" class="page">
+      <div class="hero"><div><span class="eyebrow">DETALLE</span><h2>Documentos pendientes</h2><p>Documentos registrados en DocsMariella.</p></div></div>
+      <section class="stats-grid one"><article class="stat-card stat-primary"><div class="stat-icon">📄</div><div><span>Documentos pendientes</span><strong id="docsCount">0</strong></div></article></section>
       <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h3>Documentos pendientes</h3>
-            <p>Detalle registrado en DocsMariella.</p>
-          </div>
-          <input id="searchDocs" class="search" type="search" placeholder="Buscar documento o proyecto...">
-        </div>
-        <div id="docsList" class="docs-list">
-          <div class="empty">Cargando documentos...</div>
-        </div>
+        <div class="panel-head"><div><h3>DocsMariella</h3><p>Los documentos que permanezcan en la hoja aparecerán aquí.</p></div><input id="searchDocs" class="search" type="search" placeholder="Buscar documento o proyecto..."></div>
+        <div id="docsList" class="docs-list"></div>
       </section>
-    </main>
+    </section>
 
-    <footer>Seguimiento de Traducciones</footer>
-  </div>
-  <script src="script.js"></script>
+    <section id="page-historial" class="page">
+      <div class="hero"><div><span class="eyebrow">HISTORIAL</span><h2>Pagos realizados</h2><p>Todo lo que tenga Estado = ok, ordenado por periodo.</p></div></div>
+      <section class="stats-grid">
+        <article class="stat-card stat-primary"><div class="stat-icon">S/</div><div><span>Total cobrado</span><strong id="totalCobrado">S/ 0.00</strong></div></article>
+        <article class="stat-card"><div class="stat-icon">✓</div><div><span>Pagos realizados</span><strong id="totalPagos">0</strong></div></article>
+        <article class="stat-card"><div class="stat-icon">📅</div><div><span>Periodos</span><strong id="totalPeriodos">0</strong></div></article>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><div><h3>Historial de pagos</h3><p>La columna Fecha pago se muestra como periodo mensual.</p></div><input id="searchHistory" class="search" type="search" placeholder="Buscar código o periodo..."></div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+    </section>
+  </main>
+  <footer>Seguimiento de Traducciones</footer>
+</div>
+<script src="script.js"></script>
 </body>
 </html>
